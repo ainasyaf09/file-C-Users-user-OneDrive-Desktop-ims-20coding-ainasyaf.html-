@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aina Travel Hobby </title>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- ROOT THEME ---------- */
+  :root{
+    --text: #000000;           /* black text */
+    --bg1: #e6fbff;            /* aqua pastel */
+    --bg2: #d4f4ff;
+    --card: #f7fcff;
+    --border: #c3eaff;         /* soft border */
+    --accent: #9ee8ff;         /* hover/glow */
+    --btn: #7fdcff;            /* button pastel */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    color:var(--text);
+    line-height:1.5;
+    background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* ---------- Header ---------- */
+  .header{
+    padding:56px 16px;
+    text-align:center;
+    background: url('WhatsApp Image 2024-11-18 at 13.48.35_82fc15e4.jpg') no-repeat center/cover;
+    color:#fff;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .header h1{ font-size:34px; text-shadow:2px 2px 12px rgba(0,0,0,0.35); margin-bottom:6px }
+  .header p{ opacity:.95; font-weight:300; margin-bottom:0 }
+
+  /* ---------- Navbar ---------- */
+  .navbar{
+    display:flex; gap:10px; align-items:center; padding:12px 16px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    position:sticky; top:0; z-index:100;
+    border-bottom:1px solid rgba(0,0,0,0.04);
+  }
+  .navbar a{
+    text-decoration:none; color:var(--text); padding:8px 12px; border-radius:10px; font-weight:600;
+  }
+  .navbar a.active, .navbar a:hover{
+    background: #cfeaff; color:#042a3a; box-shadow: 0 8px 20px rgba(10,130,200,0.06);
+  }
+  .spacer { flex:1 }
+
+  /* ---------- Container ---------- */
+  .container{ max-width:1200px; margin:20px auto; padding:0 16px; }
+  .content {.content {
+  min-height: auto !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+}
+
+  /* ---------- Home hero ---------- */
+  .home-hero{ max-width:980px; margin:18px auto; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+  .hero-img{
+    width:260px; height:260px; object-fit:cover; border-radius:18px;
+    border:6px solid white; box-shadow:0 18px 50px rgba(6,80,110,0.08);
+  }
+  .home-intro{ width:100%; background:var(--card); padding:18px; border-radius:12px; border:1px solid var(--border); text-align:left; color:var(--text) }
+
+  /* mini cards */
+  .home-blocks{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:14px }
+  .mini-card{ background:var(--card); padding:12px; border-radius:12px; min-width:220px; border:1px solid var(--border) }
+/* --- Resize images in My Hobby section to 4R size (approx) --- */
+#hobby-section img {
+  width: 400px;       /* 4R width */
+  height: auto;       /* maintain ratio */
+  border-radius: 10px;
+  display: block;
+  margin: 12px auto;  /* center the image */
+}
+
+  /* ---------- Page card (generic) ---------- */
+  .page-section { display:none }      /* hidden by default */
+  .page-visible { display:block }     /* current page */
+  .card { background:var(--card); padding:16px; border-radius:12px; border:1px solid var(--border); box-shadow:0 12px 40px rgba(6,80,110,0.04); margin-bottom:18px ; margin-top:0}
+
+
+  /* ---------- Places (images cover) ---------- */
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:12px }
+  .place img{ width:100%; height:520px; object-fit:cover; border-radius:12px; box-shadow:0 14px 40px rgba(6,80,110,0.06); border:4px solid rgba(255,255,255,0.5) }
+  .img-glow{ outline: 6px solid rgba(158,232,255,0.08); box-shadow:0 22px 60px rgba(34,150,210,0.06) }
+
+  /* ---------- GALLERY (FULL IMAGE no crop) ---------- */
+  /* Caption styling for Moments Captured slideshow */
+.slide .caption {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 90%;
+}
+
+
+.slideshow{ position:relative; overflow:hidden; border-radius:14px; background:#000; height:700px } /* container height */
+  .slide{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition: opacity .9s ease;
+    background: #000;
+  }
+  .slide.active{ opacity:1; pointer-events:auto; z-index:2 }
+
+  /* image inside slide (contain = no crop) */
+  .slide img, .slide video{
+    max-width:100%; max-height:100%; width:auto; height:100%; object-fit:contain; border-radius:10px;
+    box-shadow: 0 18px 50px rgba(2,20,40,0.45);
+    outline:6px solid rgba(158,232,255,0.06);
+    background:#000;
+  }
+
+  /* video styles */
+  .slide video{ display:block; }
+
+  /* controls */
+  .slide-controls{ position:absolute; top:50%; left:0; right:0; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 10px; z-index:4 }
+  .slide-controls button{
+    background:var(--btn); color:#042a3a; border:none; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:20px;
+    box-shadow:0 8px 24px rgba(10,130,200,0.08);
+  }
+  .slide-controls button:hover{ transform:translateY(-3px); box-shadow:0 14px 36px rgba(10,130,200,0.12) }
+
+  /* small caption / tip */
+  .muted{ color: rgba(0,0,0,0.55); font-size:0.95rem; margin-top:12px }
+
+  /* responsive */
+  @media (max-width:1000px){ .place img{ height:420px } .slideshow{ height:520px } .slide img, .slide video{ height:100% } }
+  @media (max-width:700px){ .grid-2{ grid-template-columns:1fr } .slideshow{ height:420px } .place img{ height:300px } .hero-img{ width:180px;height:180px } }
+
+  /* utility */
+  h2{ color:#042a3a; margin-bottom:10px }
+  ul{ margin-left:18px; margin-top:6px }
+  li{ margin-bottom:8px }
+
+  footer{ text-align:center; padding:14px; margin-top:18px }
+
+
+/* ------- Itinerary Layout (text kiri + gambar kanan) ------- */
+
+.itinerary-wrapper {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.itinerary-text {
+  flex: 2;
+}
+
+.itinerary-image {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* ------- Box gambar 4R + caption ------- */
+
+.image-box {
+  text-align: center;
+}
+
+.image-box img {
+  width: 100%;
+  max-width: 400px;   /* 4R size */
+  border-radius: 12px;
+  border: 3px solid white;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.img-cap {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #333;
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" role="banner">
+    <h1>Aina Exploring Malaysia’s Hidden Gems </h1>
+    <p>Welcome To My Website</p>
+  </header>
+
+  <!-- NAV -->
+  <nav class="navbar" role="navigation" aria-label="Main">
+    <div style="display:flex;gap:8px;align-items:center">
+      <a href="#" class="active" data-target="home">Home</a>
+      <a href="#" data-target="hobby">My Hobby</a>
+      <a href="#" data-target="Exploration Plan">Exploration Plan</a>
+      <a href="#" data-target="places">Places</a>
+      <a href="#" data-target="Moments Captured">Moments Captured</a>
+      <a href="#" data-target="contact">Contact</a>
+    </div>
+    <div class="spacer"></div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="container">
+    <main class="content" id="main">
+
+      <!-- HOME -->
+      <section id="home-section" class="page-section page-visible card">
+        <div class="home-hero">
+          <img class="hero-img" src="WhatsApp Image 2024-11-18 at 13.49.04_82009ff0.jpg" alt="Profile">
+          <div class="home-intro">
+            <h2>About Me</h2>
+            <ul>
+              <li><strong>Name:</strong> Aina Syafiqah Bt Awek</li>
+              <li><strong>Occupation:</strong> Student</li>
+              <li><strong>Education:</strong> Bachelor Degree in Business Management (Hons) — Finance</li>
+              <li><strong>University:</strong> UiTM Campus 2 Samarahan</li>
+              <li><strong>Hobby:</strong> Travelling in Malaysia — favourite: Sabah</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="home-blocks" aria-hidden="false">
+          <div class="mini-card">
+            <h4>Contact</h4>
+            <p class="muted">Email: <a href="mailto:ainasyaf09@gmail.com">ainasyaf09@gmail.com</a></p>
+            <p class="muted">Facebook: Ainasyaf</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>Items to Bring</h4>
+            <ul>
+              <li>👕 Enough clothes</li>
+              <li>🧴 Medicines and hygiene equipment</li>
+              <li>👟 Shoes & bag</li>
+              <li>📷 Camera, charger, powerbank</li>
+              <li>💵 Pocket money</li>
+              <li>📸 Tripod (optional)</li>
+              <li>🪪 ID card & passport</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOBBY -->
+      <section id="hobby-section" class="page-section card">
+        <h2>Travelling</h2>
+        <p>I enjoy doing many fun activities whenever I travel, especially in Sabah. 
+Besides that, creating travel memories through journaling and photos  
+are some of the things that make travelling enjoyable for me!
+</p>
+<h3 style="margin-top:16px;">My Hobby Photos</h3>
+<div class="extra-grid"> 
+<ul style="text-align:center; list-style:none; padding:0; margin-top:18px;">
+<li>🛍️ Shopping for souvenirs and local crafts.</li>
+<li>📝 Travel journaling and documenting trips.</li>
+<li>🌺 Visiting parks, hot springs, and nature trails.</li>
+<li>🎥 Recording simple travel videos for memories.</li>
+</ul></div>
+<center> <div><img src="556031637_3151109605059133_1264447967456241190_n.jpg"><div class="caption"> 🌊 Snorkeling & seawalking to explore marine life. </div></div> <center>
+<div><img src="WhatsApp Image 2025-11-18 at 19.57.57_a1e1cba6.jpg"><div class="caption"> 🏝️ Island hopping and beach activities.</div></div>
+<div><img src="WhatsApp Image 2025-10-20 at 19.23.40_3a0c29da.jpg"><div class="caption"> ⛰️ Enjoying mountain views especially Mount Kinabalu.</div></div>
+<div><img src="WhatsApp Image 2024-11-18 at 13.48.57_b27b4c28.jpg"><div class="caption">📸 Aesthetic memories</div></div>
+<div><img src="557639736_4181882485414884_467840188393831437_n.jpg"><div class="caption"> 🍜 Trying traditional and local seafood.</div></div>
+<div><img src="555946494_3151431595026934_8488260881475970126_n.jpg"><div class="caption">🏛️learned about old artifacts in traditional museums</div></div>
+</div>
+</div> 
+</section>
+
+      <!-- Exploration Plan -->
+     <section id="Exploration Plan-section" class="page-section card">
+
+  <div class="itinerary-wrapper">
+
+    <!-- TEXT DI KIRI -->
+    <div class="itinerary-text">
+      <h2>Itinerary — 4D3N</h2>
+
+      <h2>Day 1:</h2>
+      <ul>
+        <li>🛬 Arrive at Kota Kinabalu Airport</li>
+        <li>🏠 Tamparuli Upside Down House</li>
+        <li>🌉 Tamparuli Suspension Bridge</li>
+        <li>⛰️ Nabalu Mountain View Town</li>
+        <li>🍉 Kundasang Fruit Market</li>
+        <li>🏡 Check-in Kundasang Homestay</li>
+      </ul>
+
+      <h2>Day 2:</h2>
+      <ul>
+        <li>🏡 Check-out Homestay</li>
+        <li>🍳 Golf Breakfast</li>
+        <li>🍓 Strawberry Farm</li>
+        <li>🌺 Spring Garden</li>
+        <li>🐄 Desa Dairy Farm</li>
+        <li>🐟 Fish Spa Marakau</li>
+        <li>🐰 Rabbit Farm</li>
+        <li>🏨 Check-in Hotel Kota Kinabalu</li>
+      </ul>
+
+      <h2>Day 3:</h2>
+      <ul>
+        <li>⛴️ Depart to Jesselton Point Jetty</li>
+        <li>🏝️ Manukan Island & Mamutik Island</li>
+        <li>🤿 Snorkeling, Jet Ski, Banana Boat, Parasailing & Sea Walking</li>
+        <li>🌅 Tanjung Aru Sunset Beach</li>
+        <li>🦞 Dinner — Famous Sabah Seafood</li>
+      </ul>
+
+      <h2>Day 4:</h2>
+      <ul>
+        <li>🏨 Check-out Hotel</li>
+        <li>🏛️ Sabah Museum</li>
+        <li>🎎 Kampung Warisan Culture House</li>
+        <li>🏙️ Sabah Yayasan Tower</li>
+        <li>🕌 Floating City Mosque</li>
+        <li>🛍️ Philippine Market</li>
+        <li>💎 Jamilah Jewellery</li>
+        <li>🍫 Cocoa Boutique</li>
+        <li>🍰 Borneo Layer Cake</li>
+        <li>✈️ Return to Kuching</li>
+      </ul>
+    </div>
+
+    <!-- GAMBAR DI KANAN -->
+<div class="itinerary-image">
+
+      <div class="image-box">
+        <img src="taman arnab.jpg" alt="Rabbit Park">
+        <p class="img-cap">Rabbit Park (you can feed the rabbits)</p>
+      </div>
+
+      <div class="image-box">
+        <img src="rumah terbalik.jpg" alt="Tamparuli Upside Down House">
+        <p class="img-cap">Tamparuli Upside Down House (Dusun culture)</p>
+      </div>
+
+      <div class="image-box">
+        <img src="island.jpg" alt="Mamutik Island">
+        <p class="img-cap">Mamutik Island (Snorkelling and other activities)</p>
+      </div>
+
+      <div class="image-box">
+        <img src="ladang strawbery.jpg" alt="Strawberry Farm">
+        <p class="img-cap">Strawberry Farm (pick from the tree and eat with chocolate)</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+      </section>
+<!-- PLACES -->
+<section id="places-section" class="page-section card">
+  <h2>Sabah's Top Destination</h2>
+
+  <div class="grid-2">
+
+    <!-- DESTINATION 1 -->
+    <div class="place">
+      <img src="WhatsApp Image 2025-10-20 at 20.56.51_8fee7e7b.jpg" 
+           alt="Gunung Kinabalu" 
+           class="img-glow">
+      <h3>Gunung Kinabalu</h3>
+      <ul>
+        <li>🥾 Hiking</li>
+        <li>🌅 Sunrise View</li>
+        <li>❄️ Cool Weather</li>
+      </ul>
+    </div>
+
+    <!-- DESTINATION 2 -->
+    <div class="place">
+      <img src="WhatsApp Image 2025-10-20 at 19.11.41_6ade36ae.jpg" 
+           alt="Manukan & Mamutik" 
+           class="img-glow">
+      <h3>Manukan & Mamutik</h3>
+      <ul>
+        <li>🤿 Snorkeling</li>
+        <li>🛥️ Jet Ski</li>
+        <li>🍌 Banana Boat</li>
+        <li>🪂 Parasailing</li>
+        <li>🚶♂️ Sea Walking</li>
+      </ul>
+    </div>
+
+    <!-- DESTINATION 3 -->
+    <div class="place">
+      <img src="WhatsApp Image 2025-10-20 at 19.11.42_79ac2436.jpg" 
+           alt="New Place 1" 
+           class="img-glow">
+      <h3>SEA WALKING ACTIVITIES</h3>
+      <ul>
+        <li>🏖️ Beautiful Beach</li>
+        <li>📸 Photography Spot To look Marine Life</li>
+        <li>🌊 Crystal Clear Water</li>
+      </ul>
+    </div>
+
+    <!-- DESTINATION 4 -->
+    <div class="place">
+      <img src="WhatsApp Image 2025-10-20 at 19.23.40_3a0c29da.jpg" 
+           alt="New Place 2" 
+           class="img-glow">
+      <h3>Bohey Dulang Semporna Island</h3>
+      <ul>
+        <li>🌅 Amazing View</li>
+        <li>🧡 Hiking to see best view</li>
+        <li>✨ Island View</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+      <!-- Moments Captured (6 media: 4 images + 2 videos) -->
+      <section id="Moments Captured-section" class="page-section card">
+        <h2>Gallery</h2>
+
+        <div class="slideshow" id="slideshow" aria-live="polite">
+          <!-- Slide 1: image -->
+         <div class="slide active" data-type="image">
+  <img src="WhatsApp Image 2025-10-20 at 20.56.51_8fee7e7b.jpg" alt="Slide 1">
+  <div class="caption">Gunung Kinabalu – Scenic mountain view</div>
+</div>
+
+
+          <!-- Slide 2: image -->
+          <div class="slide" data-type="image">
+  <img src="WhatsApp Image 2025-10-20 at 19.11.41_6ade36ae.jpg" alt="Slide 2">
+  <div class="caption">Manukan Island – Clear blue waters</div>
+</div>
+
+
+          <!-- Slide 3: image -->
+       <div class="slide" data-type="image">
+  <img src="WhatsApp Image 2025-10-20 at 19.11.42_79ac2436.jpg" alt="Slide 3">
+  <div class="caption">Sea Walking Experience</div>
+</div>
+
+
+          <!-- Slide 4: image -->
+          <div class="slide" data-type="image">
+  <img src="WhatsApp Image 2025-10-20 at 19.23.40_3a0c29da.jpg" alt="Slide 4">
+  <div class="caption">Bohey Dulang – Stunning island view</div>
+</div>
+
+         <!-- Slide 5: video -->
+<div class="slide" data-type="video">
+  <video playsinline  loop preload="metadata"webkit-playsinline>
+    <source src="BOHEY DULANG SEMPRONA.mp4" type="video/mp4">
+    
+  </video>
+  <div class="caption">Bohey Dulang Climbing Clip</div>
+</div>
+
+<!-- Slide 6: video -->
+<div class="slide" data-type="video">
+  <video playsinline loop preload="metadata"  webkit-playsinline>
+    <source src="WhatsApp Video 2025-11-18 at 18.26.52_b24e391a.mp4" type="video/mp4">
+  
+  </video>
+  <div class="caption">Snorkeling with 360 Camera</div>
+</div>
+
+          <!-- controls -->
+          <div class="slide-controls" aria-hidden="false">
+            <button id="prevBtn" aria-label="Previous slide">‹</button>
+            <button id="nextBtn" aria-label="Next slide">›</button>
+          </div>
+        </div>
+<button id="enableSoundBtn"
+  style="margin:10px auto; display:block; padding:10px 14px; background:#0a84ff; color:white;
+         border:none; border-radius:8px; cursor:pointer; font-weight:600;">
+  Enable Video Sound 🔊
+</button>
+
+<button id="pauseVideoBtn"
+  style="margin:10px auto; display:block; padding:10px 14px; background:#ff4d4d; color:white;
+         border:none; border-radius:8px; cursor:pointer; font-weight:600;">
+  Pause Video ⏹️
+</button>
+
+        <p class="muted">Tip: videos are muted and will auto-play only when visible. Use the arrows to navigate.</p>
+      </section>
+
+  <!-- CONTACT -->
+<section id="contact-section" class="page-section card" style="text-align:center;">
+
+  <h2 style="margin-bottom:14px;">Contact Me</h2>
+
+  <form 
+    style="
+      display:flex; 
+      flex-direction:column; 
+      gap:14px; 
+      margin:0 auto; 
+      max-width:380px; 
+      width:100%;
+      text-align:left;
+    "
+  >
+
+    <div style="display:flex; flex-direction:column;">
+      <label style="font-weight:600;">Name:</label>
+      <input 
+        type="text" 
+        placeholder="Your Name" 
+        required 
+        style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;"
+      >
+    </div>
+
+    <div style="display:flex; flex-direction:column;">
+      <label style="font-weight:600;">Email:</label>
+      <input 
+        type="email" 
+        placeholder="Your Email" 
+        required 
+        style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;"
+      >
+    </div>
+
+    <div style="display:flex; flex-direction:column;">
+      <label style="font-weight:600;">Message:</label>
+      <textarea 
+        rows="4" 
+        placeholder="Write Your Message..." 
+        required
+        style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;"
+      ></textarea>
+    </div>
+
+    <button 
+      type="submit" 
+      style="
+        margin:0 auto; 
+        padding:10px 20px;
+        border:none;
+        background:#0a84ff;
+        color:white;
+        border-radius:8px;
+        cursor:pointer;
+        font-weight:600;
+      "
+    >
+      Submit
+    </button>
+
+  </form>
+
+</section>
+
+
+    </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <footer>© 2025 Aina Syafiqah (2021669826)</footer>
+
+
+
+</script>
+
+<script>
+
+/* ------------------ STOP ALL VIDEOS FUNCTION ------------------ */
+function stopAllVideos() {
+  document.querySelectorAll('.slideshow video').forEach(v => {
+    v.pause();
+    v.muted = true;
+    v.currentTime = 0;
+  });
+}
+
+/* ------------------ NAVIGATION PAGE ------------------ */
+const navLinks = document.querySelectorAll('.navbar a[data-target]');
+const pages = document.querySelectorAll('.page-section');
+
+navLinks.forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+
+    stopAllVideos(); // Hentikan muzik bila tukar section
+
+    const target = link.dataset.target;
+    pages.forEach(p => p.classList.remove("page-visible"));
+
+    const page = document.getElementById(target + "-section");
+    if (page) page.classList.add("page-visible");
+
+    navLinks.forEach(a => a.classList.remove("active"));
+    link.classList.add("active");
+  });
+});
+
+/* ------------------ SLIDESHOW ------------------ */
+const slides = document.querySelectorAll(".slideshow .slide");
+let index = 0;
+let timer;
+
+function showSlide(i) {
+  slides.forEach(s => s.classList.remove("active"));
+  slides[i].classList.add("active");
+
+  const vid = slides[i].querySelector("video");
+
+  if (vid) {
+    vid.muted = false;
+    vid.volume = 1.0;
+    vid.play().catch(()=>{});
+  }
+
+  clearTimeout(timer);
+  timer = setTimeout(() => {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  }, vid && vid.duration ? vid.duration * 1000 : 6000);
+}
+
+window.addEventListener("load", () => {
+  showSlide(0);
+});
+
+/* ------------------ ENABLE SOUND BUTTON ------------------ */
+const enableSoundBtn = document.getElementById('enableSoundBtn');
+
+enableSoundBtn.addEventListener('click', () => {
+  document.querySelectorAll('.slideshow video').forEach(v => {
+    v.muted = false;
+    v.volume = 1.0;
+    v.play().catch(()=>{});
+  });
+
+  alert("Video sound enabled! 🎵");
+});
+
+/* ------------------ PAUSE VIDEO BUTTON ------------------ */
+const pauseVideoBtn = document.getElementById('pauseVideoBtn');
+
+pauseVideoBtn.addEventListener('click', () => {
+  stopAllVideos();
+  alert("Video paused successfully ⏹️");
+});
+
+</script>
+
+
+</body>
+</html>                    
